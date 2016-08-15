@@ -150,7 +150,7 @@
   The table element is used to specify a database table that will be the source information
   for a set of generated objects.
 -->
-<!ELEMENT table (property*, generatedKey?, columnRenamingRule?, (columnOverride | ignoreColumn | ignoreColumnsByRegex)*) >
+<!ELEMENT table (property*, annotationColumn*, generatedKey?, columnRenamingRule?, (columnOverride | ignoreColumn | ignoreColumnsByRegex)*) >
 <!ATTLIST table
   catalog CDATA #IMPLIED
   schema CDATA #IMPLIED
@@ -175,6 +175,16 @@
   delimitAllColumns CDATA #IMPLIED>
 
 <!--
+  The columnOverride element is used to change certain attributes of the column
+  from their default values.
+-->
+<!ELEMENT annotationColumn (property*)>
+<!ATTLIST annotationColumn
+  column CDATA #REQUIRED
+  annotationFullName CDATA #REQUIRED
+  annotationContent CDATA #REQUIRED>
+  
+  <!--
   The columnOverride element is used to change certain attributes of the column
   from their default values.
 -->
