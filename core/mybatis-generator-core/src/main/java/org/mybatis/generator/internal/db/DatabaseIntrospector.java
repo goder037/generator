@@ -616,7 +616,11 @@ public class DatabaseIntrospector {
             introspectedColumn.setDefaultValue(rs.getString("COLUMN_DEF")); //$NON-NLS-1$
             
             introspectedColumn.setAutoIncrement("YES".equals(rs.getString("IS_AUTOINCREMENT"))); //$NON-NLS-1$ //$NON-NLS-2$
-            introspectedColumn.setGeneratedColumn("YES".equals(rs.getString("IS_GENERATEDCOLUMN"))); //$NON-NLS-1$ //$NON-NLS-2$
+            try {
+            	 introspectedColumn.setGeneratedColumn("YES".equals(rs.getString("IS_GENERATEDCOLUMN"))); //$NON-NLS-1$ //$NON-NLS-2$
+			} catch (Exception e) {
+				 introspectedColumn.setGeneratedColumn(false);
+			}
 
             ActualTableName atn = new ActualTableName(
                     rs.getString("TABLE_CAT"), //$NON-NLS-1$
