@@ -114,6 +114,8 @@ public class TableConfiguration extends PropertyHolder {
     private String sqlProviderName;
     
     private List<IgnoredColumnPattern> ignoredColumnPatterns = new ArrayList<IgnoredColumnPattern>();
+    
+    private Map<String, List<AnnotationColumn>> annotationColumns = new HashMap<String, List<AnnotationColumn>>();
 
     /**
      * Instantiates a new table configuration.
@@ -905,4 +907,14 @@ public class TableConfiguration extends PropertyHolder {
     public void setSqlProviderName(String sqlProviderName) {
         this.sqlProviderName = sqlProviderName;
     }
+
+	public Map<String, List<AnnotationColumn>> getAnnotationColumns() {
+		return annotationColumns;
+	}
+
+	public void setAnnotationColumns(
+			Map<String, List<AnnotationColumn>> annotationColumns) {
+		this.annotationColumns = annotationColumns;
+	}
+	
 }
