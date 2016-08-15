@@ -22,6 +22,7 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
@@ -36,6 +37,8 @@ import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.RootClassInfo;
+import org.mybatis.generator.config.AnnotationColumn;
+import org.mybatis.generator.config.TableConfiguration;
 
 /**
  * 
@@ -90,6 +93,16 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
             if (plugins.modelFieldGenerated(field, topLevelClass,
                     introspectedColumn, introspectedTable,
                     Plugin.ModelClassType.BASE_RECORD)) {
+            	String dbColumnName = introspectedColumn.getActualColumnName();
+                TableConfiguration tableConfiguration = introspectedTable.getTableConfiguration();
+                Map<String, List<AnnotationColumn>> annotationColumns = tableConfiguration.getAnnotationColumns();
+                List<AnnotationColumn> list = annotationColumns.get(dbColumnName);
+                if(list!=null && list.size()>0){
+    		        for (AnnotationColumn annotationColumn : list) {
+    					field.addAnnotation(annotationColumn.getAnnotationContent());
+    					topLevelClass.addImportedType(annotationColumn.getAnnotationFullName());
+    		        }
+                }
                 topLevelClass.addField(field);
                 topLevelClass.addImportedType(field.getType());
             }
