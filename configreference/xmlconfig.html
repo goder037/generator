@@ -348,6 +348,8 @@ attributes.</p>
 
     &lt;table schema=&quot;DB2ADMIN&quot; tableName=&quot;ALLTYPES&quot; domainObjectName=&quot;Customer&quot; &gt;
       &lt;property name=&quot;useActualColumnNames&quot; value=&quot;true&quot;/&gt;
+      &lt;annotationColumn column=&quot;PUBLISH_TIME_&quot; annotationFullName=&quot;com.fasterxml.jackson.annotation.JsonFormat&quot; 
+      annotationContent=&quot;@JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;, timezone=&quot;GMT+8&quot;)&quot;/&gt;
       &lt;generatedKey column=&quot;ID&quot; sqlStatement=&quot;DB2&quot; identity=&quot;true&quot; /&gt;
       &lt;columnOverride column=&quot;DATE_FIELD&quot; property=&quot;startDate&quot; /&gt;
       &lt;ignoreColumn column=&quot;FRED&quot; /&gt;
