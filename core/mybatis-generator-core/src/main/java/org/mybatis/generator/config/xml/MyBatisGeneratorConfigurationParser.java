@@ -35,8 +35,12 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.mybatis.generator.config.AnnotationColumn;
 import org.mybatis.generator.config.ColumnOverride;
 import org.mybatis.generator.config.ColumnRenamingRule;
 import org.mybatis.generator.config.CommentGeneratorConfiguration;
@@ -382,11 +386,30 @@ public class MyBatisGeneratorConfigurationParser {
                 parseGeneratedKey(tc, childNode);
             } else if ("columnRenamingRule".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseColumnRenamingRule(tc, childNode);
+            } else if ("annotationColumn".equals(childNode.getNodeName())) { //$NON-NLS-1$
+                parseAnnotationColumn(tc, childNode);
             }
         }
     }
 
-    private void parseColumnOverride(TableConfiguration tc, Node node) {
+    private void parseAnnotationColumn(TableConfiguration tc, Node node) {
+		// TODO 
+    	 Properties attributes = parseAttributes(node);
+    	 String column = attributes.getProperty("column"); //$NON-NLS-1$
+         String annotationFullName = attributes.getProperty("annotationFullName"); //$NON-NLS-1$
+         String annotationContent = attributes.getProperty("annotationContent"); //$NON-NLS-1$
+         Map<String, List<AnnotationColumn>> annotationColumns = tc.getAnnotationColumns();
+         List<AnnotationColumn> list = annotationColumns.get(column);
+         if(list==null){
+        	 list = new ArrayList<AnnotationColumn>();
+         }
+         AnnotationColumn annotationColumn = new AnnotationColumn(column, annotationFullName, annotationContent);
+         list.add(annotationColumn);
+         annotationColumns.put(column, list);
+         tc.setAnnotationColumns(annotationColumns);
+	}
+
+	private void parseColumnOverride(TableConfiguration tc, Node node) {
         Properties attributes = parseAttributes(node);
         String column = attributes.getProperty("column"); //$NON-NLS-1$
         String property = attributes.getProperty("property"); //$NON-NLS-1$
